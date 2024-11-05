@@ -6,9 +6,9 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class Computador extends JLabel {
-    private ImageIcon imagemComputador;
-    private ImageIcon imagemSistema;
-    private ImageIcon imagemBotaoVoltar;
+    private Image imagemComputador;
+    private Image imagemSistema;
+    private Image imagemBotaoVoltar;
     private JPanel cenarioPrincipal;
     private JPanel panelContainer;
     private CardLayout cardLayout;
@@ -16,31 +16,24 @@ public class Computador extends JLabel {
     private JButton excluirMedicamento;
     private JButton listarMedicamentos;
     private JButton alterarMedicamentos;
+    private JButton botaoVoltar;
     private String nomeDoMedicamento;
     private int estoque;
-
-  
 
     public Computador(JPanel cenarioPrincipal, JPanel panelContainer, CardLayout cardLayout) {
         this.cenarioPrincipal = cenarioPrincipal;
         this.panelContainer = panelContainer;
         this.cardLayout = cardLayout;
-
-        imagemComputador = new ImageIcon("imagens/computador.png");
-        imagemSistema = new ImageIcon("imagens/fundoSistema.png");
-        imagemBotaoVoltar = new ImageIcon ("imagens/voltarPixel.png");
-
-       
-        Image img = imagemComputador.getImage();
+        imagemComputador =  new ImageIcon(getClass().getResource("/resources/imagens/computador.png")).getImage();
+        imagemSistema = new ImageIcon(getClass().getResource("/resources/imagens/fundoSistema.png")).getImage();
+        imagemBotaoVoltar = new ImageIcon(getClass().getResource("/resources/imagens/voltarPixel.png")).getImage();
+      
         int largura = 120;
         int altura = 120;
-        Image newImg = img.getScaledInstance(largura, altura, Image.SCALE_SMOOTH);
-
-        imagemComputador = new ImageIcon(newImg);
-        setIcon(imagemComputador);
         setPreferredSize(new Dimension(largura, altura));
-        setSize(largura, altura);
-
+        setSize(95, 113);
+        setLocation(25, 226);
+        
         addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -50,6 +43,12 @@ public class Computador extends JLabel {
 
         setCursor(new Cursor(Cursor.HAND_CURSOR));
     }
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        if (imagemComputador != null) {
+            g.drawImage(imagemComputador, 0, 0, getWidth(), getHeight(), this);
+        }
+    }
 
     private void criarPaineis() {
         JPanel painelSistema = new JPanel() {
@@ -57,7 +56,7 @@ public class Computador extends JLabel {
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
                 if (imagemSistema != null) {
-                    g.drawImage(imagemSistema.getImage(), 0, 0, getWidth(), getHeight(), this);
+                    g.drawImage(imagemSistema, 0, 0, getWidth(), getHeight(), this);
                 }
             }
         };
@@ -125,24 +124,20 @@ public class Computador extends JLabel {
         });
         painelSistema.add(listarMedicamentos);
 
-        
-        Image img = imagemBotaoVoltar.getImage();
+        Image img = imagemBotaoVoltar;
         int larguraVoltar = 120;
         int alturaVoltar = 120;
         Image newImg = img.getScaledInstance(larguraVoltar, alturaVoltar, Image.SCALE_SMOOTH);
-        imagemBotaoVoltar = new ImageIcon(newImg);
-        setIcon(imagemComputador);
         setPreferredSize(new Dimension(larguraVoltar, alturaVoltar));
         setSize(larguraVoltar, alturaVoltar);
 
-
-        JButton botaoVoltar = new JButton(imagemBotaoVoltar);
-        botaoVoltar.setBounds(20, 400, 50, 40);
-        botaoVoltar.addActionListener(e -> cardLayout.show(panelContainer, "cenarioPrincipal"));
+        JButton botaoVoltar = new JButton("Voltar");
+        botaoVoltar.setBounds(20, 400, 100, 40);
+        botaoVoltar.addActionListener(e ->{ cardLayout.show(panelContainer, "cenarioPrincipal");
+        cenarioPrincipal.requestFocusInWindow();
+       });
+        
         painelSistema.add(botaoVoltar);
-        
-        
-
         panelContainer.add(painelSistema, "painelSistema");
         cardLayout.show(panelContainer, "painelSistema");
     }

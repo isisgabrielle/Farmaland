@@ -1,32 +1,35 @@
 import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.Image;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
 public class PersonagemEllo extends JLabel {
-    private ImageIcon personagemEllo;
-    private int posicaoX = 0; // posição inicial do personagem
-    private int posicaoY = 0; // posição inicial do personagem
+    private Image personagemEllo;
+    private int posicaoX = 0; 
+    private int posicaoY = 0; 
 
     public PersonagemEllo() {
-        personagemEllo = new ImageIcon("imagens/elloPersonagem.png");
-        Image img = personagemEllo.getImage();
+        personagemEllo = new ImageIcon(getClass().getResource("/resources/imagens/elloPersonagem.png")).getImage();
+
+        Image img = personagemEllo;
         int largura = 180;
         int altura = 180;
         Image newImg = img.getScaledInstance(largura, altura, Image.SCALE_SMOOTH);
 
-        personagemEllo = new ImageIcon(newImg);
-        setIcon(personagemEllo);
         setPreferredSize(new Dimension(largura, altura));
         setSize(largura, altura);
-
-        // Define a posição inicial do personagem
         setLocation(posicaoX, posicaoY);
     }
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        if (personagemEllo!= null) {
+            g.drawImage(personagemEllo, 0, 0, getWidth(), getHeight(), this);
+        }
+    }
 
-    // Métodos para movimentação
     public void moverParaDireita() {
-        posicaoX += 10; // ajusta o valor para a distância que quer mover
+        posicaoX += 10; 
         setLocation(posicaoX, posicaoY);
     }
 

@@ -1,118 +1,155 @@
 import javax.swing.*;
-
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+
 
 public class Interface {
     private JPanel panelContainer;
     private JPanel panelPrincipal;
+    private JPanel panelHistoria;
+    private JPanel panelRegras;
     private JPanel cenarioPrincipal;
-    private JPanel novoPanel;
     private JButton botaoEntrar;
+    private CardLayout cardLayout;
+    private JLabel timerLabel;
+    private Timer timer;
+    private int tempoRestante = 600;
     private JButton sairButton;
     private Image imagemFundo;
     private Image cenarioFundo;
-    private CardLayout cardLayout; 
-    private JLabel coordenadasLabel; // Rótulo para coordenadas
-
+ 
     public Interface() {
-        imagemFundo = new ImageIcon("imagens/FarmaLand.png").getImage(); 
-        cenarioFundo = new ImageIcon("imagens/cenarioPrincipal.png").getImage();
         createUIComponents();
+        imagemFundo = new ImageIcon(getClass().getResource("/resources/imagens/FarmaLand.png")).getImage();
+        cenarioFundo = new ImageIcon(getClass().getResource("/resources/imagens/cenarioPrincipal.png")).getImage();
     }
 
     private void createUIComponents() {
         cardLayout = new CardLayout();
         panelContainer = new JPanel(cardLayout);
-
-        // Instancia a classe Laboratorio passando os parâmetros necessários
-        Laboratorio laboratorio = new Laboratorio(cenarioPrincipal, cardLayout);
-
         panelPrincipal = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
-                if (imagemFundo != null) {
-                    g.drawImage(imagemFundo, 0, 0, getWidth(), getHeight(), this);
-                }
+                Image imagemFundo = new ImageIcon(getClass().getResource("/resources/imagens/FarmaLand.png")).getImage();
+                g.drawImage(imagemFundo, 0, 0, getWidth(), getHeight(), this);
             }
         };
-        panelPrincipal.setLayout(null); 
+        panelPrincipal.setLayout(null);
 
-        cenarioPrincipal = new JPanel() {
+        botaoEntrar = new JButton("Entrar");
+        botaoEntrar.setBounds(220, 396, 86, 29);
+        botaoEntrar.addActionListener(e -> cardLayout.show(panelContainer, "panelHistoria"));
+        panelPrincipal.add(botaoEntrar);
+
+        JButton sairButton = new JButton("Sair");
+        sairButton.setBounds(329, 396, 86, 29);
+        sairButton.addActionListener(e -> System.exit(0));
+        panelPrincipal.add(sairButton);
+
+        panelContainer.add(panelPrincipal, "panelPrincipal");
+
+        panelHistoria = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
+                Image imagemHistoria = new ImageIcon(getClass().getResource("/resources/imagens/historiaJogo.png")).getImage();
+                g.drawImage(imagemHistoria, 0, 0, getWidth(), getHeight(), this);
+            }
+        };
+        panelHistoria.setLayout(null);
+        JButton botaoProximoHistoria = new JButton("Próximo");
+        botaoProximoHistoria.setBounds(430, 420, 100, 25);
+        botaoProximoHistoria.addActionListener(e -> cardLayout.show(panelContainer, "panelRegras"));
+        panelHistoria.add(botaoProximoHistoria);
+        panelContainer.add(panelHistoria, "panelHistoria");
+
+  
+        panelRegras = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                Image imagemRegras = new ImageIcon(getClass().getResource("/resources/imagens/regrasJogo.png")).getImage();
+                g.drawImage(imagemRegras, 0, 0, getWidth(), getHeight(), this);
+            }
+        };
+        panelRegras.setLayout(null);
+        JButton botaoProximoRegras = new JButton("Próximo");
+        botaoProximoRegras.setBounds(430, 420, 100, 25);
+        botaoProximoRegras.addActionListener(e -> {
+            cardLayout.show(panelContainer, "cenarioPrincipal");
+            cenarioPrincipal.requestFocusInWindow();
+            iniciarTimer();
+        });
+        panelRegras.add(botaoProximoRegras);
+        panelContainer.add(panelRegras, "panelRegras");
+
+
+         cenarioPrincipal = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                Image cenarioFundo = new ImageIcon(getClass().getResource("/resources/imagens/cenarioPrincipal.png")).getImage();
                 if (cenarioFundo != null) {
                     g.drawImage(cenarioFundo, 0, 0, getWidth(), getHeight(), this);
                 }
             }
         };
-
-        // Configura o cenarioPrincipal como focável e solicita foco
+        cenarioPrincipal.setLayout(null);  
         cenarioPrincipal.setFocusable(true);
 
         botaoEntrar = new JButton("Entrar");
-        botaoEntrar.setBounds(172, 320, 86, 29);
+        botaoEntrar.setBounds(220, 396, 86, 29);
         botaoEntrar.addActionListener(e -> {
             cardLayout.show(panelContainer, "cenarioPrincipal");
-            cenarioPrincipal.requestFocusInWindow();  // Solicita foco no painel ao entrar no cenário
+            cenarioPrincipal.requestFocusInWindow();
+            iniciarTimer();
         });
+        panelPrincipal.add(botaoEntrar);
 
         sairButton = new JButton("Sair");
-        sairButton.setBounds(302, 320, 86, 29); 
+        sairButton.setBounds(329, 396, 86, 29);
         sairButton.addActionListener(e -> System.exit(0));
-
-        panelPrincipal.add(botaoEntrar);
         panelPrincipal.add(sairButton);
 
         panelContainer.add(panelPrincipal, "panelPrincipal");
         panelContainer.add(cenarioPrincipal, "cenarioPrincipal");
-        cenarioPrincipal.setLayout(null);
 
-        Computador computadorClicavel = new Computador(cenarioPrincipal, panelContainer, cardLayout);
-        computadorClicavel.setBounds(58, 261, 77, 81);
-        cenarioPrincipal.add(computadorClicavel);
+        timerLabel = new JLabel("Tempo: 10:00");
+        timerLabel.setBounds(475, 10, 100, 30);
+        cenarioPrincipal.add(timerLabel);
 
-        // Instancia o personagem e adiciona ao painel
         PersonagemEllo personagem = new PersonagemEllo();
-        personagem.setBounds(130, 150, 180, 180); // Ajuste para as dimensões do personagem
+        personagem.setBounds(130, 150, 180, 180); 
         cenarioPrincipal.add(personagem);
 
-        // Rótulo para exibir as coordenadas do personagem
-        coordenadasLabel = new JLabel("Coordenadas: (130, 150)");
-        coordenadasLabel.setBounds(10, 10, 200, 30);
-        cenarioPrincipal.add(coordenadasLabel);
+        Computador computadorClicavel = new Computador(cenarioPrincipal, panelContainer, cardLayout);
         
-        JLabel lblNewLabel = new JLabel("New label");
-        lblNewLabel.setBounds(512, 49, 62, 138); // Define a posição e o tamanho da JLabel
-        cenarioPrincipal.add(lblNewLabel); // Adiciona a JLabel ao painel principal
+        cenarioPrincipal.add(computadorClicavel);
 
-        // Adiciona o MouseListener à JLabel para responder ao clique
-        lblNewLabel.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                laboratorio.criarLab(); // Chama a função criarLab() da instância de Laboratorio
-            }
-        });
+        Laboratorio laboratorioClicavel = new Laboratorio(cenarioPrincipal, panelContainer, cardLayout);
+        laboratorioClicavel.setBounds(512, 49, 62, 138);  
+        cenarioPrincipal.add(laboratorioClicavel);
 
-        // Adiciona o KeyListener ao cenarioPrincipal para movimentar o personagem
+        Gato gatoChao = new Gato(cenarioPrincipal, panelContainer, cardLayout);
+        gatoChao.setBounds(469, 425, 56, 25);
+        cenarioPrincipal.add(gatoChao);
+
+        Livro livroClicavel = new Livro(cenarioPrincipal, panelContainer, cardLayout);
+        livroClicavel.setBounds(78, 353, 46, 25);
+        cenarioPrincipal.add(livroClicavel);
+
         cenarioPrincipal.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
                 int x = personagem.getX();
                 int y = personagem.getY();
-
-                // Define os limites de movimento
                 int limiteEsquerdo = -70;
                 int limiteDireito = 470;
                 int limiteCima = 50;
                 int limiteBaixo = 320;
-
-                // Atualiza a posição do personagem, respeitando os limites
+              
                 switch (e.getKeyCode()) {
                     case KeyEvent.VK_RIGHT -> {
                         if (x < limiteDireito) personagem.setLocation(x + 10, y);
@@ -128,37 +165,42 @@ public class Interface {
                     }
                 }
 
-                // Verifica se a nova posição está nas áreas bloqueadas
-                if ((personagem.getX() == 0 && personagem.getY() >= 150 && personagem.getY() <= 280) || 
+       
+                if ((personagem.getX() == 0 && personagem.getY() >= 150 && personagem.getY() <= 280) ||
                     (personagem.getX() > -60 && personagem.getX() <= 50 && personagem.getY() >= 150 && personagem.getY() <= 280)) {
-                    // Se o personagem estiver em uma área bloqueada, move de volta para a posição anterior
+              
                     switch (e.getKeyCode()) {
-                        case KeyEvent.VK_RIGHT -> personagem.setLocation(x, y); // volta para a posição anterior
-                        case KeyEvent.VK_LEFT -> personagem.setLocation(x, y); // volta para a posição anterior
-                        case KeyEvent.VK_UP -> personagem.setLocation(x, y); // volta para a posição anterior
-                        case KeyEvent.VK_DOWN -> personagem.setLocation(x, y); // volta para a posição anterior
+                        case KeyEvent.VK_RIGHT, KeyEvent.VK_LEFT, KeyEvent.VK_UP, KeyEvent.VK_DOWN ->
+                            personagem.setLocation(x, y); 
                     }
                 }
-             
-                coordenadasLabel.setText("Coordenadas: (" + personagem.getX() + ", " + personagem.getY() + ")");
-                if (personagem.getX() >= 420 && personagem.getY()>= 50) {
-                    novoPanel = new JPanel();
-                    novoPanel.setBackground(Color.LIGHT_GRAY);
-                    novoPanel.add(new JLabel("Você desbloqueou um novo painel!"));
-                    
-                    panelContainer.add(novoPanel, "novoPanel");
-                }
-            } 
+  
+            }
         });
 
         JFrame frame = new JFrame("FarmaEllo");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setContentPane(panelContainer); 
-        frame.setSize(600, 500); 
-        frame.setVisible(true); 
+        frame.setContentPane(panelContainer);
+        frame.setSize(600, 500);
+        frame.setVisible(true);
         frame.setResizable(false);
 
         cardLayout.show(panelContainer, "panelPrincipal");
+    }
+
+    private void iniciarTimer() {
+        timer = new Timer(1000, e -> {
+            tempoRestante--;
+            int minutos = tempoRestante / 60;
+            int segundos = tempoRestante % 60;
+            timerLabel.setText(String.format("Tempo: %02d:%02d", minutos, segundos));
+
+            if (tempoRestante <= 0) {
+                timer.stop();
+                JOptionPane.showMessageDialog(panelContainer, "Você perdeu!");
+            }
+        });
+        timer.start();
     }
 
     public static void main(String[] args) {
