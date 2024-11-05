@@ -1,6 +1,7 @@
 A tela inicial dele contém os botões de entrar e sair do jogo: ![Imagem do WhatsApp de 2024-11-05 à(s) 16 24 45_f92920a4](https://github.com/user-attachments/assets/5a92c9b0-759f-4e44-a98d-f0eccadf9c91)
 
-A historia do jogo foi criada rapidamente, ainda irei fazer algumas mudanças: ![image](https://github.com/user-attachments/assets/262af402-a1c6-43a2-b71d-9d2bfb7605a7)
+A historia do jogo foi criada rapidamente, ainda irei fazer algumas mudanças: ![image](https://github.com/user-attachments/assets/0d6cc4f7-623f-40ff-8381-ea467256161a)
+
 
 O jogo inicia dentro da farmacia da personagem, dentro dela o jogador precisa encontrar o pergaminhho com as missões que ele terá que realizar, dentro do tempo de 10 minutos.
 A dica é que o pergaminho está escondido dentro de algo sagrado no antigo egito: ![image](https://github.com/user-attachments/assets/5eeac1f3-6508-4f69-9e5c-fea25b1be143)
@@ -8,7 +9,8 @@ A dica é que o pergaminho está escondido dentro de algo sagrado no antigo egit
 
 Dentro da dinâmica do jogo o jogador pode interagir com alguns elementos presentes no cenário, como por exemplo o computador. Ao clicar no computador o jogo abre um painel de gerenciamento de medicamentos
 onde o jogador pode inserir um medicamento, alterar, excluir e listar, esses métodos foram inspirados em outro projeto que eu fiz e que está disponibilizado aqui no github, se chama "projeto-farmacos" : 
-![image](https://github.com/user-attachments/assets/94ce047f-e8f2-451b-a387-dcbae5e8f45d)
+![image](https://github.com/user-attachments/assets/535858ba-0e2b-499d-8531-80af47004564)
+
 
 Um exemplo do uso: ![image](https://github.com/user-attachments/assets/24ce51af-c30d-4eac-901f-91092c0cbee4)
 
