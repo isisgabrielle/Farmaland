@@ -3,7 +3,7 @@ A tela inicial dele contém os botões de entrar e sair do jogo: ![Imagem do Wha
 A historia do jogo foi criada rapidamente, ainda irei fazer algumas mudanças: ![image](https://github.com/user-attachments/assets/0d6cc4f7-623f-40ff-8381-ea467256161a)
 
 
-O jogo inicia dentro da farmacia da personagem, dentro dela o jogador precisa encontrar o pergaminhho com as missões que ele terá que realizar, dentro do tempo de 10 minutos.
+O jogo inicia dentro da farmacia da personagem, dentro dela o jogador precisa encontrar o pergaminho com as missões que ele terá que realizar, dentro do tempo de 10 minutos.
 A dica é que o pergaminho está escondido dentro de algo sagrado no antigo egito: ![image](https://github.com/user-attachments/assets/5eeac1f3-6508-4f69-9e5c-fea25b1be143)
 ![image](https://github.com/user-attachments/assets/bfa5cb34-386b-4e26-be72-2039b11ec80c)
 
