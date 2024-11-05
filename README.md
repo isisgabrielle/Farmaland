@@ -5,7 +5,6 @@ A historia do jogo foi criada rapidamente, ainda irei fazer algumas mudanças: !
 
 O jogo inicia dentro da farmacia da personagem, dentro dela o jogador precisa encontrar o pergaminho com as missões que ele terá que realizar, dentro do tempo de 10 minutos.
 A dica é que o pergaminho está escondido dentro de algo sagrado no antigo egito: ![image](https://github.com/user-attachments/assets/5eeac1f3-6508-4f69-9e5c-fea25b1be143)
-![image](https://github.com/user-attachments/assets/bfa5cb34-386b-4e26-be72-2039b11ec80c)
 
 Dentro da dinâmica do jogo o jogador pode interagir com alguns elementos presentes no cenário, como por exemplo o computador. Ao clicar no computador o jogo abre um painel de gerenciamento de medicamentos
 onde o jogador pode inserir um medicamento, alterar, excluir e listar, esses métodos foram inspirados em outro projeto que eu fiz e que está disponibilizado aqui no github, se chama "projeto-farmacos" : 
